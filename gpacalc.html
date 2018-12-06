@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>GPA Calculator</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="basic.css">
+  </head>
+  <body>
+    <div id="div1" class="col-sm-4">
+      <p id="lg">Letter Grade</p>
+      <input type="text"  name="letter" id="letter" style="margin-bottom: 8px;" placeholder="Type the Letter Grade..." >
+      <p id ="ch" >Credit Hours</p>
+      <input type="text" name="credit" id="credit" style="margin-bottom: 15px;" >
+    </div>
+    <!-- The javascript read the id value before it read the onclick value and assumed I was calling the id?, even they were
+        different cases of the same word, thats a dumb thing with javascript-->
+  <div  id="div2">
+    <img src="andreselfie.jpg" class="img-circle" style="width: 130px;">
+    <button id="addclass" onclick="add()">Add Class</button>
+    <button id="calc" onclick="calculate()">Calculate</button>
+    <button id="reset" onclick="reset()">Reset</button>
+    <p id="result"></p>
+  </div>
+
+
+
+    <script>
+      var credit = document.getElementById("credit");
+      var letter = document.getElementById('letter');
+      var addClass = document.getElementById("addclass");
+     var div = document.getElementById('div1');
+       var p1, p2, input1, input2;
+       p1 = document.getElementById("lg");
+       p2 = document.getElementById("ch");
+     var calcArray = [];
+
+
+      function calculate(){
+      var values = document.getElementsByTagName('input');
+      calcArray.splice(0, calcArray.length);
+      console.log(calcArray.length);
+        $( "input" ).each(function( index ) {
+      // console.log( index + ": " + values[index].value  );
+
+
+      calcArray.push(values[index].value);
+    });
+    // console.log(calcArray);
+        var sum = 0.0;
+        var denom = 0.0;
+        for(var i = 0; i < calcArray.length - 1; i+=2){
+          sum += calcArray[i]*calcArray[i+1];
+          denom += calcArray[i+1]*1;//denom was implicitly concatenating the array elements instead of numerically adding, thats why i have '*1'
+          // console.log("sum: " + sum);
+          // console.log("denom: " + denom);
+        }
+        if(denom == 0){
+          document.getElementById('result').innerHTML = "Invalid credit hours.";
+        } else {
+          var result = sum/denom;
+          document.getElementById('result').innerHTML = "Your GPA is: " + result.toFixed(2);
+        }
+
+      }
+
+      function add(){
+        var cdiv = div.cloneNode(true);
+        var cp1 = p1.cloneNode(true);
+        var cp2 = p2.cloneNode(true);
+        var cinput1 = letter.cloneNode(true);
+        var cinput2 = credit.cloneNode(true);
+        cinput1.value = "";
+        cinput2.value = "";
+        div.append(cp1, cinput1, cp2, cinput2);
+      }
+
+      function reset(){
+        var cp1 = p1.cloneNode(true);
+        var cp2 = p2.cloneNode(true);
+        var cinput1 = letter.cloneNode(true);
+        var cinput2 = credit.cloneNode(true);
+        cinput1.value = "";
+        cinput2.value = "";
+        $("p").remove("p");
+        $("input").remove("input");
+        div.append(cp1, cinput1, cp2, cinput2);
+
+      }
+
+    </script>
+  </body>
+</html>
